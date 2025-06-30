@@ -1,0 +1,65 @@
+<form
+  (ngSubmit)="onSubmit()"
+  class="container mt-4 p-4 border rounded shadow-lg bg-white fadeIn"
+  style="max-width: 600px"
+>
+  <h3 class="mb-4 text-primary text-center">User Registration</h3>
+
+  <div class="mb-3">
+    <label for="fullname" class="form-label text-dark">
+      Full Name <span class="text-danger">*</span>
+    </label>
+    <input
+      type="text"
+      id="fullname"
+      class="form-control animate__animated animate__fadeIn hover-shadow"
+      [(ngModel)]="formdata.fullname"
+      name="fullname"
+      placeholder="Enter full name"
+      required
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="email" class="form-label text-dark">
+      Email Address <span class="text-danger">*</span>
+    </label>
+    <input
+      type="email"
+      id="email"
+      class="form-control animate__animated animate__fadeIn hover-shadow"
+      [(ngModel)]="formdata.email"
+      name="email"
+      placeholder="name@example.com"
+      required
+    />
+  </div>
+
+  <div class="mb-3">
+    <label for="password" class="form-label text-dark">
+      Password <span class="text-danger">*</span>
+    </label>
+    <input
+      type="password"
+      id="password"
+      class="form-control animate__animated animate__fadeIn hover-shadow"
+      [(ngModel)]="formdata.password"
+      name="password"
+      placeholder="Enter password"
+      required
+    />
+  </div>
+  <div class="input-group mb-3">
+  <input type="file" class="form-control" id="image" (change)="onFileSelected($event)" accept="image/*">
+  <label class="input-group-text" for="image">Upload</label>
+</div>
+
+  <div class="text-center">
+    <button
+      type="submit"
+      class="btn btn-primary animate__animated animate__pulse animate__infinite btn-lg shadow-sm hover-scale"
+    >
+      Submit
+    </button>
+  </div>
+</form>

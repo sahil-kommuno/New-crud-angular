@@ -1,0 +1,24 @@
+.hover-shadow:hover {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    transition: box-shadow 0.3s ease;
+  }
+
+  
+  .hover-scale:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s ease-in-out;
+  }
+
+
+  .active-scale:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease-in-out;
+  }
+
+
+  .hover-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
