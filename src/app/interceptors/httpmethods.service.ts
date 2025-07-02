@@ -20,8 +20,8 @@ export class HttpmethodsService {
   postApi(data: any) {
     return this.http.post(this.postapiUrl, data);
   }
-  getApi() {
-    return this.http.get(this.getapiUrl);
+  getApi(data: any) {
+    return this.http.post(this.getapiUrl,data);
   }
   deleteApi(id: any) {
     return this.http.delete(`${this.deleteapiUrl}/${id}`);

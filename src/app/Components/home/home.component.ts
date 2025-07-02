@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private HttpmethodsService: HttpmethodsService,
     private FormdataService: FormdataService
   ) {}
+  regid: any=""
   formdata = {
     fullname: '',
     email: '',
@@ -40,8 +41,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
       return;
     }
+// const loginpayload = localStorage.getItem('loginPayload');
+//       if (loginpayload) {
+//         const parsedPayload = JSON.parse(loginpayload);
+//         this.regid = parsedPayload.id
+//         console.log("regid",this.regid)
+//       }
 
-    const payload = { search, searchby };
+    const payload = { search, searchby ,regid:this.regid };
 
     this.HttpmethodsService.searchApi(payload).subscribe({
       next: (response) => {
@@ -58,7 +65,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   res_data: any = '';
   getformdata() {
-    this.HttpmethodsService.getApi().subscribe({
+    const loginpayload = localStorage.getItem('loginPayload');
+      if (loginpayload) {
+        const parsedPayload = JSON.parse(loginpayload);
+        this.regid = parsedPayload.id
+        console.log("regid",this.regid)
+      }
+
+    this.HttpmethodsService.getApi({regid: this.regid}).subscribe({
       next: (Response) => {
         this.res_data = Response;
         console.log(Response);

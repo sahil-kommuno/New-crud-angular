@@ -80,15 +80,22 @@ export class RegisterformComponent implements OnInit, OnDestroy {
   }
 
   emailvalidate: RegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
+regid: any=""
   onSubmit() {
     if (!this.validEmail()) {
       return;
     }
+     const loginpayload = localStorage.getItem('loginPayload');
+      if (loginpayload) {
+        const parsedPayload = JSON.parse(loginpayload);
+        this.regid = parsedPayload.id
+        console.log("regid",this.regid)
+      }
     const payload = new FormData();
     payload.append('fullname', this.formdata.fullname);
     payload.append('email', this.formdata.email);
     payload.append('password', this.formdata.password);
+    payload.append('regid',this.regid)
     if (this.selectedFile) {
       payload.append('image', this.selectedFile);
     }
@@ -107,6 +114,7 @@ export class RegisterformComponent implements OnInit, OnDestroy {
         },
       });
     } else {
+    
       this.HttpmethodsService.postApi(payload).subscribe({
         next: () => {
           Swal.fire('Registration Successful').then(() => {

@@ -2,7 +2,7 @@ const express = require('express');
 import { Request, Response } from 'express';
 const User = require('../Models/User.schema');
 import upload from '../Image.Upload/user.Upload.Image';
-
+const mongoose = require('mongoose');
 export const postdata = async (req: Request, res: Response) => {
   try {
     const userdata = {
@@ -10,6 +10,7 @@ export const postdata = async (req: Request, res: Response) => {
       email: req.body.email,
       password: req.body.password,
       image: req.file?.filename,
+      regid: req.body.regid,
     };
     const data = await new User(userdata).save();
     console.log(data);
@@ -20,9 +21,50 @@ export const postdata = async (req: Request, res: Response) => {
 };
 export const getdata = async (req: Request, res: Response) => {
   try {
-    const data = await User.find({});
+    const { regid } = req.body;
+
+    if (!mongoose.Types.ObjectId.isValid(regid)) {
+      return res.status(400).json({ message: 'Invalid regid' });
+    }
+
+    const regidObj = new mongoose.Types.ObjectId(regid);
+
+    const data = await User.aggregate([
+      {
+        $match: {
+          regid: regid,
+        },
+      },
+      {
+        $addFields: {
+          regidObj: { $toObjectId: '$regid' },
+        },
+      },
+      {
+        $lookup: {
+          from: 'adminlogindatas',
+          localField: 'regidObj',
+          foreignField: '_id',
+          as: 'userInfo',
+        },
+      },
+      {
+        $unwind: '$userInfo',
+      },
+      {
+        $project: {
+          fullname: 1,
+          email: 1,
+          image: 1,
+          createdAt: 1,
+          'userInfo.email': 1,
+        },
+      },
+    ]);
+
     res.status(200).json(data);
   } catch (error) {
+    console.error('Aggregation error:', error);
     res.status(400).json({ message: 'Error getting user data', error });
   }
 };

@@ -4,9 +4,10 @@ const User = require('../Models/User.schema');
 
 export const searchbyname = async (req: Request, res: Response) => {
   try {
-    const { search, searchby } = req.body;
+    console.log(req.body)
+    const { search, searchby, regid } = req.body;
 
-    if (!search || !searchby) {
+    if (!search || !searchby || !regid) {
       return res
         .status(400)
         .json({ message: 'Both search and searchby are required.' });
@@ -18,7 +19,7 @@ export const searchbyname = async (req: Request, res: Response) => {
     }
 
     const query = {
-      [searchby]: { $regex: search, $options: 'i' },
+      [searchby]: { $regex: search, $options: 'i' }, regid: regid
     };
 
     const data = await User.find(query);

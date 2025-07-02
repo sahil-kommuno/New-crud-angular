@@ -14,7 +14,7 @@ router.post(
   loggerDetail,jwtAuthMiddleware,
   userFormData.postdata
 );
-router.get('/getdata', loggerDetail,jwtAuthMiddleware, userFormData.getdata);
+router.post('/getdata', loggerDetail,jwtAuthMiddleware, userFormData.getdata);
 router.delete(
   '/deletedata/:id',
   loggerDetail,
