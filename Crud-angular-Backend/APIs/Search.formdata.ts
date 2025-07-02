@@ -5,6 +5,7 @@ const User = require('../Models/User.schema');
 export const searchbyname = async (req: Request, res: Response) => {
   try {
     console.log(req.body)
+    
     const { search, searchby, regid } = req.body;
 
     if (!search || !searchby || !regid) {
